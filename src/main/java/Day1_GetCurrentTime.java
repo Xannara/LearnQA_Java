@@ -1,6 +1,6 @@
 import java.util.Calendar;
 
-public class GetCurrentTime {
+public class Day1_GetCurrentTime {
 
     public static void main(String[] args) {
 

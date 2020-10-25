@@ -1,4 +1,4 @@
-public class TextWork {
+public class Day2_TextWork {
 
     public static void main(String[] args) {
 
