@@ -2,65 +2,72 @@ import java.util.ArrayList;
 
 public class Day5_Text {
 
-       public static void main(String[] args) {
+    static Character[] alphabet = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
+
+    public static void main(String[] args) {
+
         String text = "IntelliJ IDEA Community Edition";
         System.out.println(textEncoding(text));
         System.out.println(textDecoding(textEncoding(text)));
+
     }
 
     public static String textEncoding(String text) {
-        char[] letter = text.toCharArray();
-        ArrayList<Character> small = smallLetters();
-        ArrayList<Character> big = bigLetters();
+        ArrayList<Character> letter = new ArrayList<>();
         for (int i = 0; i < text.length(); i++) {
-            for (int j = 0; j < small.size(); j++) {
-                if(letter[i] == small.get(small.size()-1)) {
-                    letter[i] = big.get(0);
-                } else if(letter[i] == small.get(j)) {
-                    letter[i] = big.get(j+1);
-                } else if(letter[i] == big.get(big.size())-1) {
-                    letter[i] = small.get(0);
-                } else if(letter[i] == big.get(j)) {
-                    letter[i] = small.get(j+1);
+            for (int j = 0; j < alphabet.length; j++) {
+                Character textCharacter = text.charAt(i);
+                Character textLowerCase = Character.toLowerCase(textCharacter);
+                Character character = alphabet[j];
+                if(textCharacter.equals(' ')) {
+                    letter.add(i, textCharacter);
+                } else if (character.equals(textLowerCase)) {
+                    int x = j + 1;
+                    if(textLowerCase.equals('z')) {
+                        x = 0;
+                    }
+                    if(Character.isLowerCase(textCharacter)) {
+                        letter.add(i, Character.toUpperCase(alphabet[x]));
+                    } else {
+                        letter.add(i, Character.toLowerCase(alphabet[x]));
+                    }
                 }
             }
         }
-        return String.valueOf(letter);
+        return stringBuilder(letter);
     }
 
     public static String textDecoding(String text) {
-        char[] letter = text.toCharArray();
-        ArrayList<Character> small = smallLetters();
-        ArrayList<Character> big = bigLetters();
+        ArrayList<Character> letter = new ArrayList<>();
         for (int i = 0; i < text.length(); i++) {
-            for (int j = 0; j < small.size(); j++) {
-                if(letter[i] == small.get(0)) {
-                    letter[i] = big.get(big.size()-1);
-                } else if(letter[i] == small.get(j)) {
-                    letter[i] = big.get(j-1);
-                } else if(letter[i] == big.get(0)) {
-                    letter[i] = small.get(0);
-                } else if(letter[i] == big.get(j)) {
-                    letter[i] = small.get(j-1);
+            for (int j = 0; j < alphabet.length; j++) {
+                Character textCharacter = text.charAt(i);
+                Character textLowerCase = Character.toLowerCase(textCharacter);
+                Character character = alphabet[j];
+                if(textCharacter.equals(' ')) {
+                    letter.add(i, textCharacter);
+                } else if (character.equals(textLowerCase)) {
+                    int x = j - 1;
+                    if(textLowerCase.equals('a')) {
+                        x = 25;
+                    }
+                    if(Character.isLowerCase(textCharacter)) {
+                        letter.add(i, Character.toUpperCase(alphabet[x]));
+                    } else {
+                        letter.add(i, Character.toLowerCase(alphabet[x]));
+                    }
                 }
             }
         }
-        return String.valueOf(letter);
+        return stringBuilder(letter);
     }
 
-    public static ArrayList<Character> smallLetters() {
-        ArrayList<Character> small = new ArrayList<>();
-        for(char i = 'a'; i <='z'; i++) {
-            small.add(i);
+    public static String stringBuilder(ArrayList<Character> list) {
+        StringBuilder sb = new StringBuilder();
+        for (char ch : list) {
+            sb.append(ch);
         }
-        return small;
-    }
-
-    public static ArrayList<Character> bigLetters() {
-        ArrayList<Character> big = new ArrayList<>();
-        for(char i = 'A'; i <='Z'; i++) {
-            big.add(i);
-        }
-        return big;
+        String string = sb.toString();
+        return string;
     }
 }
